@@ -85,50 +85,44 @@ function CRUD() {
     }
   
     const peticionPut=async()=>{
-      
-      
-      const usuario={
-        firstName:frameworkSeleccionado.firstName,
-        lastName:frameworkSeleccionado.lastName
+      const ccaa={
+        nombre_ccaa:frameworkSeleccionado.nombre_ccaa,
+        dosis_entregadas_pfizer:frameworkSeleccionado.dosis_entregadas_pfizer,
+        dosis_entregadas_moderna:frameworkSeleccionado.dosis_entregadas_moderna,
+        dosis_administradas:frameworkSeleccionado.dosis_administradas,
+        numero_personas_pauta_completa:frameworkSeleccionado.numero_personas_pauta_completa,
+        fecha_registro_ultima_vacuna:frameworkSeleccionado.fecha_registro_ultima_vacuna
       };
-      await axios.put(baseUrl+"modificar/"+frameworkSeleccionado.id,usuario)
+
+      await axios.put(baseUrl+"/"+frameworkSeleccionado.codigo_ccaa,ccaa)
       .then(response=>{
-        if (response.data!=null)
-        {
-         //swal("Good job!", "You clicked the button!", "success"); 
+        if (response.data!=null){
           swal("Buen trabajo!","Registro Modificado Satisfactoriamente","success");
-         
           abrirCerrarModalEditar();
-           //refresco la tabla haciendo una peticion delete
-           peticionGet();
+          //refresco la tabla haciendo una peticion delete
+          peticionGet();
         }  
-       
       }).catch(error=>{
         console.log(error);
       })
-    }//peticionPut
+    }
   
     const peticionDelete=async()=>{
      
-      axios.delete(baseUrl+"borrar/"+frameworkSeleccionado.id).then(response=>{
-      if (response.data!=null)
-      {
-        swal("Buen trabajo!","Registro Borrado Satisfactoriamente","success");
-        abrirCerrarModalEliminar();
-         //refresco la tabla haciendo una peticion delete
-         peticionGet();
-      }
-      
-       
+      axios.delete(baseUrl+"/"+frameworkSeleccionado.codigo_ccaa).then(response=>{
+        if (response.data!=null){
+          swal("Buen trabajo!","Registro Borrado Satisfactoriamente","success");
+          abrirCerrarModalEliminar();
+          //refresco la tabla haciendo una peticion delete
+          peticionGet();
+        }
       }).catch(error=>{
         console.log(error);
-       
       })
-    }//peticionDelete
+    }
   
     const seleccionarFramework=(framework, caso)=>{
       setFrameworkSeleccionado(framework);
-  
       (caso==="Editar")?
       abrirCerrarModalEditar():
       abrirCerrarModalEliminar()
@@ -146,16 +140,20 @@ function CRUD() {
       <table className="table table-striped">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Acciones</th>
+            <th>CÓDIGO CCAA</th>
+            <th>NOMBRE CCAA</th>
+            <th>DOSIS ENTREGADAS PFIZER</th>
+            <th>DOSIS ENTREGADAS MODERNA</th>
+            <th>DOSIS ADMINISTRADAS</th>
+            <th>NÚMERO DE PERSONAS CON PAUTA COMPLETA</th>
+            <th>FECHA DEL REGISTRO DE LA ÚLTIMA VACUNA</th>
+            <th>ACCIONES</th>
           </tr>
         </thead>
         <tbody>
         {console.log(data[0])}
           {data.map(framework=>(
-            <tr key={framework.id}>
+            <tr key={framework.codigo_ccaa}>
               {/*console.log(framework.first_name)*/}
               {/* el nombre de los campos que vienen a continuacion tienes que ser
               los que nos devuelve el JSON. Fijate en como se llaman cuando te devuelve 
@@ -164,61 +162,87 @@ function CRUD() {
               {"id":2,"firstName":"Ana","lastName":"Soria"},
               {"id":3,"firstName":"Luis","lastName":"Rodrigo"},
               {"id":4,"firstName":"Raquel","lastName":"Segovia"}]
-  
-              
               */}
-              <td>{framework.id}</td>
-              <td>{framework.firstName}</td>
-              <td>{framework.lastName}</td>
-              
+              <td>{framework.codigo_ccaa}</td>
+              <td>{framework.nombre_ccaa}</td>
+              <td>{framework.dosis_entregadas_pfizer}</td>
+              <td>{framework.dosis_entregadas_moderna}</td>
+              <td>{framework.dosis_administradas}</td>
+              <td>{framework.numero_personas_pauta_completa}</td>
+              <td>{framework.fecha_registro_ultima_vacuna}</td>
             <td>
             <button className="btn btn-primary" onClick={()=>seleccionarFramework(framework, "Editar")}>Editar</button> 
             <button className="btn btn-danger" onClick={()=>seleccionarFramework(framework, "Eliminar")}>Eliminar</button>
             </td>
             </tr>
           ))}
-  
-  
         </tbody> 
-  
       </table>
-  
-  
+
       <Modal isOpen={modalInsertar}>
-        <ModalHeader>Insertar Usuarios</ModalHeader>
+        <ModalHeader>Insertar CCAAs</ModalHeader>
         <ModalBody>
           <div className="form-group">
-            <label>First Name: </label>
+            <label>Nombre de la CCAA: </label>
             <br />
-            <input type="text" className="form-control" name="firstName" onChange={handleChange}/>
+            <input type="text" className="form-control" name="nombre_ccaa" onChange={handleChange}/>
             <br />
-            <label>Last Name: </label>
+            <label>Número de dosis entregadas Pfizer: </label>
             <br />
-            <input type="text" className="form-control" name="lastName" onChange={handleChange}/>
+            <input type="number" min="0" className="form-control" name="dosis_entregadas_pfizer" onChange={handleChange}/>
             <br />
-            
+            <label>Número de dosis entregadas Moderna: </label>
+            <br />
+            <input type="number" min="0" className="form-control" name="dosis_entregadas_moderna" onChange={handleChange}/>
+            <br />
+            <label>Número de dosis administradas: </label>
+            <br />
+            <input type="number" min="0" className="form-control" name="dosis_administradas" onChange={handleChange}/>
+            <br />
+            <label>Número de personas con pauta completa: </label>
+            <br />
+            <input type="number" min="0" className="form-control" name="numero_personas_pauta_completa" onChange={handleChange}/>
+            <br />
+            <label>Fecha del registro de la ultima vacuna </label>
+            <br />
+            <input type="date" className="form-control" name="fecha_registro_ultima_vacuna" onChange={handleChange}/>
+            <br />
           </div>
         </ModalBody>
         <ModalFooter>
-          
           <button className="btn btn-primary" onClick={()=>peticionPost()}>Insertar</button>{"   "}
           <button className="btn btn-danger" onClick={()=>abrirCerrarModalInsertar()}>Cancelar</button>
         </ModalFooter>
       </Modal>
   
       <Modal isOpen={modalEditar}>
-        <ModalHeader>Editar Usuarios</ModalHeader>
+        <ModalHeader>Editar CCAAs</ModalHeader>
         <ModalBody>
           <div className="form-group">
-            <label>Nombre: </label>
+            <label>Nombre de la CCAA: </label>
             <br />
-            <input type="text" className="form-control" name="firstName" onChange={handleChange} value={frameworkSeleccionado && frameworkSeleccionado.firstName}/>
+            <input type="text" className="form-control" name="nombre_ccaa" onChange={handleChange} value={frameworkSeleccionado && frameworkSeleccionado.nombre_ccaa}/>
             <br />
-            <label>Lanzamiento: </label>
+            <label>Número de dosis entregadas Pfizer: </label>
             <br />
-            <input type="text" className="form-control" name="lastName" onChange={handleChange} value={frameworkSeleccionado && frameworkSeleccionado.lastName}/>
+            <input type="number" min="0" className="form-control" name="dosis_entregadas_pfizer" onChange={handleChange} value={frameworkSeleccionado && frameworkSeleccionado.dosis_entregadas_pfizer}/>
             <br />
-            
+            <label>Número de dosis entregadas Moderna: </label>
+            <br />
+            <input type="number" min="0" className="form-control" name="dosis_entregadas_moderna" onChange={handleChange} value={frameworkSeleccionado && frameworkSeleccionado.dosis_entregadas_moderna}/>
+            <br />
+            <label>Número de dosis administradas: </label>
+            <br />
+            <input type="number" min="0" className="form-control" name="dosis_administradas" onChange={handleChange} value={frameworkSeleccionado && frameworkSeleccionado.dosis_administradas}/>
+            <br />
+            <label>Número de personas con pauta completa: </label>
+            <br />
+            <input type="number" min="0" className="form-control" name="numero_personas_pauta_completa" onChange={handleChange} value={frameworkSeleccionado && frameworkSeleccionado.numero_personas_pauta_completa}/>
+            <br />
+            <label>Fecha del registro de la ultima vacuna </label>
+            <br />
+            <input type="date" className="form-control" name="fecha_registro_ultima_vacuna" onChange={handleChange} value={frameworkSeleccionado && frameworkSeleccionado.fecha_registro_ultima_vacuna}/>
+            <br />
           </div>
         </ModalBody>
         <ModalFooter>
@@ -229,17 +253,13 @@ function CRUD() {
   
       <Modal isOpen={modalEliminar}>
           <ModalBody>
-          ¿Estás seguro que deseas eliminar al Usuario {frameworkSeleccionado && frameworkSeleccionado.nombre}?
+          ¿Estás seguro que deseas eliminar la CCAA {frameworkSeleccionado && frameworkSeleccionado.nombre_ccaa}?
           </ModalBody>
           <ModalFooter>
-            <button className="btn btn-danger" onClick={()=>peticionDelete()}>
-              Sí
-            </button>
-            <button className="btn btn-secondary" onClick={()=>abrirCerrarModalEliminar()} >
-              No
-            </button>
-          </ModalFooter>
-        </Modal>
+            <button className="btn btn-danger" onClick={()=>peticionDelete()}>Sí</button>
+            <button className="btn btn-secondary" onClick={()=>abrirCerrarModalEliminar()}>No</button>
+        </ModalFooter>
+      </Modal>
   
       </div>
     );
