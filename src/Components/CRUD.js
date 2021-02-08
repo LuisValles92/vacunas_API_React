@@ -1,142 +1,149 @@
-/*
-Sobre el directorio 'react-workspace':
-  npx create-react-app react_crud_vacunas_spring_navbar
-  cd react_crud_vacunas_spring_navbar
-  npm i bootsrap reactstrap axios sweetalert
-  npm start
-*/
-import React, {useState, useEffect} from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
-import axios from 'axios';
-/*
-Libreria para mejorar los alert: https://sweetalert.js.org/guides/
-npm install sweetalert --save
-*/
-import swal from 'sweetalert';
+import React, { useState, useEffect } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import axios from "axios";
+import swal from "sweetalert";
 
 function CRUD() {
-    //Dirección de la API
-    const baseUrl="http://localhost:8090/ccaas";
-    const [data, setData]=useState([]);
-    const [modalInsertar, setModalInsertar]= useState(false);
-    const [modalEditar, setModalEditar]= useState(false);
-    const [modalEliminar, setModalEliminar]= useState(false);
-    const [frameworkSeleccionado, setFrameworkSeleccionado]=useState({
-      codigo_ccaa: '',
-      nombre_ccaa: '',
-      dosis_entregadas_pfizer: '',
-      dosis_entregadas_moderna: '',
-      dosis_administradas: '',
-      numero_personas_pauta_completa: '',
-      fecha_registro_ultima_vacuna: ''
-    });
-  
-    const handleChange=e=>{
-      const {name, value}=e.target;
-      setFrameworkSeleccionado((prevState)=>({
-        ...prevState,
-        [name]: value
-      }))
-      console.log(frameworkSeleccionado);
-    }
-  
-    const abrirCerrarModalInsertar=()=>{
-      setModalInsertar(!modalInsertar);
-    }
-  
-    const abrirCerrarModalEditar=()=>{
-      setModalEditar(!modalEditar);
-    }
-  
-    const abrirCerrarModalEliminar=()=>{
-      setModalEliminar(!modalEliminar);
-    }
-  
-    const peticionGet=async()=>{
-      await axios.get(baseUrl)
-      .then(response=>{
-        setData(response.data);
-        //console.log(response.data);
-      }).catch(error=>{
-        console.log(error);
-      })
-    }
-  
-    const peticionPost=async()=>{
-      const ccaa={
-        nombre_ccaa:frameworkSeleccionado.nombre_ccaa,
-        dosis_entregadas_pfizer:frameworkSeleccionado.dosis_entregadas_pfizer,
-        dosis_entregadas_moderna:frameworkSeleccionado.dosis_entregadas_moderna,
-        dosis_administradas:frameworkSeleccionado.dosis_administradas,
-        numero_personas_pauta_completa:frameworkSeleccionado.numero_personas_pauta_completa,
-        fecha_registro_ultima_vacuna:frameworkSeleccionado.fecha_registro_ultima_vacuna
-      };
+  const baseUrl = "http://localhost:8090/ccaas";
+  const [data, setData] = useState([]);
+  const [modalInsertar, setModalInsertar] = useState(false);
+  const [modalEditar, setModalEditar] = useState(false);
+  const [modalEliminar, setModalEliminar] = useState(false);
+  const [frameworkSeleccionado, setFrameworkSeleccionado] = useState({
+    codigo_ccaa: "",
+    nombre_ccaa: "",
+    dosis_entregadas_pfizer: "",
+    dosis_entregadas_moderna: "",
+    dosis_administradas: "",
+    numero_personas_pauta_completa: "",
+    fecha_registro_ultima_vacuna: "",
+  });
 
-      await axios.post(baseUrl+"/", ccaa)
-      .then(response=>{
-        //cerramos la ventana modal
-        abrirCerrarModalInsertar();
-        //refresco la tabla haciendo una peticion get
-        peticionGet();
-      }).catch(error=>{
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFrameworkSeleccionado((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+    console.log(frameworkSeleccionado);
+  };
+
+  const abrirCerrarModalInsertar = () => {
+    setModalInsertar(!modalInsertar);
+  };
+
+  const abrirCerrarModalEditar = () => {
+    setModalEditar(!modalEditar);
+  };
+
+  const abrirCerrarModalEliminar = () => {
+    setModalEliminar(!modalEliminar);
+  };
+
+  const peticionGet = async () => {
+    await axios
+      .get(baseUrl)
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
         console.log(error);
       });
-    }
-  
-    const peticionPut=async()=>{
-      const ccaa={
-        nombre_ccaa:frameworkSeleccionado.nombre_ccaa,
-        dosis_entregadas_pfizer:frameworkSeleccionado.dosis_entregadas_pfizer,
-        dosis_entregadas_moderna:frameworkSeleccionado.dosis_entregadas_moderna,
-        dosis_administradas:frameworkSeleccionado.dosis_administradas,
-        numero_personas_pauta_completa:frameworkSeleccionado.numero_personas_pauta_completa,
-        fecha_registro_ultima_vacuna:frameworkSeleccionado.fecha_registro_ultima_vacuna
-      };
+  };
 
-      await axios.put(baseUrl+"/"+frameworkSeleccionado.codigo_ccaa,ccaa)
-      .then(response=>{
-        if (response.data!=null){
-          swal("Buen trabajo!","Registro Modificado Satisfactoriamente","success");
-          abrirCerrarModalEditar();
-          //refresco la tabla haciendo una peticion delete
-          peticionGet();
-        }  
-      }).catch(error=>{
-        console.log(error);
+  const peticionPost = async () => {
+    const ccaa = {
+      nombre_ccaa: frameworkSeleccionado.nombre_ccaa,
+      dosis_entregadas_pfizer: frameworkSeleccionado.dosis_entregadas_pfizer,
+      dosis_entregadas_moderna: frameworkSeleccionado.dosis_entregadas_moderna,
+      dosis_administradas: frameworkSeleccionado.dosis_administradas,
+      numero_personas_pauta_completa:
+        frameworkSeleccionado.numero_personas_pauta_completa,
+      fecha_registro_ultima_vacuna:
+        frameworkSeleccionado.fecha_registro_ultima_vacuna,
+    };
+
+    await axios
+      .post(baseUrl + "/", ccaa)
+      .then((response) => {
+        abrirCerrarModalInsertar();
+        peticionGet();
       })
-    }
-  
-    const peticionDelete=async()=>{
-     
-      axios.delete(baseUrl+"/"+frameworkSeleccionado.codigo_ccaa).then(response=>{
-        if (response.data!=null){
-          swal("Buen trabajo!","Registro Borrado Satisfactoriamente","success");
-          abrirCerrarModalEliminar();
-          //refresco la tabla haciendo una peticion delete
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const peticionPut = async () => {
+    const ccaa = {
+      nombre_ccaa: frameworkSeleccionado.nombre_ccaa,
+      dosis_entregadas_pfizer: frameworkSeleccionado.dosis_entregadas_pfizer,
+      dosis_entregadas_moderna: frameworkSeleccionado.dosis_entregadas_moderna,
+      dosis_administradas: frameworkSeleccionado.dosis_administradas,
+      numero_personas_pauta_completa:
+        frameworkSeleccionado.numero_personas_pauta_completa,
+      fecha_registro_ultima_vacuna:
+        frameworkSeleccionado.fecha_registro_ultima_vacuna,
+    };
+
+    await axios
+      .put(baseUrl + "/" + frameworkSeleccionado.codigo_ccaa, ccaa)
+      .then((response) => {
+        if (response.data != null) {
+          swal(
+            "Buen trabajo!",
+            "Registro Modificado Satisfactoriamente",
+            "success"
+          );
+          abrirCerrarModalEditar();
           peticionGet();
         }
-      }).catch(error=>{
-        console.log(error);
       })
-    }
-  
-    const seleccionarFramework=(framework, caso)=>{
-      setFrameworkSeleccionado(framework);
-      (caso==="Editar")?
-      abrirCerrarModalEditar():
-      abrirCerrarModalEliminar()
-    }
-  
-    useEffect(()=>{
-      peticionGet();
-    },[])
-  
-    return (
-      <div style={{textAlign: 'center'}}>
-  <br />
-        <button className="btn btn-success" onClick={()=>abrirCerrarModalInsertar()}>Insertar</button>
-        <br /><br />
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const peticionDelete = async () => {
+    axios
+      .delete(baseUrl + "/" + frameworkSeleccionado.codigo_ccaa)
+      .then((response) => {
+        if (response.data != null) {
+          swal(
+            "Buen trabajo!",
+            "Registro Borrado Satisfactoriamente",
+            "success"
+          );
+          abrirCerrarModalEliminar();
+          peticionGet();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const seleccionarFramework = (framework, caso) => {
+    setFrameworkSeleccionado(framework);
+    caso === "Editar" ? abrirCerrarModalEditar() : abrirCerrarModalEliminar();
+  };
+
+  useEffect(() => {
+    peticionGet();
+  }, []);
+
+  return (
+    <div style={{ textAlign: "center" }}>
+      <br />
+      <button
+        className="btn btn-success"
+        onClick={() => abrirCerrarModalInsertar()}
+      >
+        Insertar
+      </button>
+      <br />
+      <br />
       <table className="table table-striped">
         <thead>
           <tr>
@@ -151,18 +158,9 @@ function CRUD() {
           </tr>
         </thead>
         <tbody>
-        {console.log(data[0])}
-          {data.map(framework=>(
+          {console.log(data[0])}
+          {data.map((framework) => (
             <tr key={framework.codigo_ccaa}>
-              {/*console.log(framework.first_name)*/}
-              {/* el nombre de los campos que vienen a continuacion tienes que ser
-              los que nos devuelve el JSON. Fijate en como se llaman cuando te devuelve 
-              haciendo una peticion get por la url http://localhost:4008/users/
-              [{"id":1,"firstName":"juan","lastName":"Perez"},
-              {"id":2,"firstName":"Ana","lastName":"Soria"},
-              {"id":3,"firstName":"Luis","lastName":"Rodrigo"},
-              {"id":4,"firstName":"Raquel","lastName":"Segovia"}]
-              */}
               <td>{framework.codigo_ccaa}</td>
               <td>{framework.nombre_ccaa}</td>
               <td>{framework.dosis_entregadas_pfizer}</td>
@@ -170,13 +168,23 @@ function CRUD() {
               <td>{framework.dosis_administradas}</td>
               <td>{framework.numero_personas_pauta_completa}</td>
               <td>{framework.fecha_registro_ultima_vacuna}</td>
-            <td>
-            <button className="btn btn-primary" onClick={()=>seleccionarFramework(framework, "Editar")}>Editar</button> 
-            <button className="btn btn-danger" onClick={()=>seleccionarFramework(framework, "Eliminar")}>Eliminar</button>
-            </td>
+              <td>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => seleccionarFramework(framework, "Editar")}
+                >
+                  Editar
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => seleccionarFramework(framework, "Eliminar")}
+                >
+                  Eliminar
+                </button>
+              </td>
             </tr>
           ))}
-        </tbody> 
+        </tbody>
       </table>
 
       <Modal isOpen={modalInsertar}>
@@ -185,84 +193,196 @@ function CRUD() {
           <div className="form-group">
             <label>Nombre de la CCAA: </label>
             <br />
-            <input type="text" className="form-control" name="nombre_ccaa" onChange={handleChange}/>
+            <input
+              type="text"
+              className="form-control"
+              name="nombre_ccaa"
+              onChange={handleChange}
+            />
             <br />
             <label>Número de dosis entregadas Pfizer: </label>
             <br />
-            <input type="number" min="0" className="form-control" name="dosis_entregadas_pfizer" onChange={handleChange}/>
+            <input
+              type="number"
+              min="0"
+              className="form-control"
+              name="dosis_entregadas_pfizer"
+              onChange={handleChange}
+            />
             <br />
             <label>Número de dosis entregadas Moderna: </label>
             <br />
-            <input type="number" min="0" className="form-control" name="dosis_entregadas_moderna" onChange={handleChange}/>
+            <input
+              type="number"
+              min="0"
+              className="form-control"
+              name="dosis_entregadas_moderna"
+              onChange={handleChange}
+            />
             <br />
             <label>Número de dosis administradas: </label>
             <br />
-            <input type="number" min="0" className="form-control" name="dosis_administradas" onChange={handleChange}/>
+            <input
+              type="number"
+              min="0"
+              className="form-control"
+              name="dosis_administradas"
+              onChange={handleChange}
+            />
             <br />
             <label>Número de personas con pauta completa: </label>
             <br />
-            <input type="number" min="0" className="form-control" name="numero_personas_pauta_completa" onChange={handleChange}/>
+            <input
+              type="number"
+              min="0"
+              className="form-control"
+              name="numero_personas_pauta_completa"
+              onChange={handleChange}
+            />
             <br />
             <label>Fecha del registro de la ultima vacuna </label>
             <br />
-            <input type="date" className="form-control" name="fecha_registro_ultima_vacuna" onChange={handleChange}/>
+            <input
+              type="date"
+              className="form-control"
+              name="fecha_registro_ultima_vacuna"
+              onChange={handleChange}
+            />
             <br />
           </div>
         </ModalBody>
         <ModalFooter>
-          <button className="btn btn-primary" onClick={()=>peticionPost()}>Insertar</button>{"   "}
-          <button className="btn btn-danger" onClick={()=>abrirCerrarModalInsertar()}>Cancelar</button>
+          <button className="btn btn-primary" onClick={() => peticionPost()}>
+            Insertar
+          </button>
+          {"   "}
+          <button
+            className="btn btn-danger"
+            onClick={() => abrirCerrarModalInsertar()}
+          >
+            Cancelar
+          </button>
         </ModalFooter>
       </Modal>
-  
+
       <Modal isOpen={modalEditar}>
         <ModalHeader>Editar CCAAs</ModalHeader>
         <ModalBody>
           <div className="form-group">
             <label>Nombre de la CCAA: </label>
             <br />
-            <input type="text" className="form-control" name="nombre_ccaa" onChange={handleChange} value={frameworkSeleccionado && frameworkSeleccionado.nombre_ccaa}/>
+            <input
+              type="text"
+              className="form-control"
+              name="nombre_ccaa"
+              onChange={handleChange}
+              value={frameworkSeleccionado && frameworkSeleccionado.nombre_ccaa}
+            />
             <br />
             <label>Número de dosis entregadas Pfizer: </label>
             <br />
-            <input type="number" min="0" className="form-control" name="dosis_entregadas_pfizer" onChange={handleChange} value={frameworkSeleccionado && frameworkSeleccionado.dosis_entregadas_pfizer}/>
+            <input
+              type="number"
+              min="0"
+              className="form-control"
+              name="dosis_entregadas_pfizer"
+              onChange={handleChange}
+              value={
+                frameworkSeleccionado &&
+                frameworkSeleccionado.dosis_entregadas_pfizer
+              }
+            />
             <br />
             <label>Número de dosis entregadas Moderna: </label>
             <br />
-            <input type="number" min="0" className="form-control" name="dosis_entregadas_moderna" onChange={handleChange} value={frameworkSeleccionado && frameworkSeleccionado.dosis_entregadas_moderna}/>
+            <input
+              type="number"
+              min="0"
+              className="form-control"
+              name="dosis_entregadas_moderna"
+              onChange={handleChange}
+              value={
+                frameworkSeleccionado &&
+                frameworkSeleccionado.dosis_entregadas_moderna
+              }
+            />
             <br />
             <label>Número de dosis administradas: </label>
             <br />
-            <input type="number" min="0" className="form-control" name="dosis_administradas" onChange={handleChange} value={frameworkSeleccionado && frameworkSeleccionado.dosis_administradas}/>
+            <input
+              type="number"
+              min="0"
+              className="form-control"
+              name="dosis_administradas"
+              onChange={handleChange}
+              value={
+                frameworkSeleccionado &&
+                frameworkSeleccionado.dosis_administradas
+              }
+            />
             <br />
             <label>Número de personas con pauta completa: </label>
             <br />
-            <input type="number" min="0" className="form-control" name="numero_personas_pauta_completa" onChange={handleChange} value={frameworkSeleccionado && frameworkSeleccionado.numero_personas_pauta_completa}/>
+            <input
+              type="number"
+              min="0"
+              className="form-control"
+              name="numero_personas_pauta_completa"
+              onChange={handleChange}
+              value={
+                frameworkSeleccionado &&
+                frameworkSeleccionado.numero_personas_pauta_completa
+              }
+            />
             <br />
             <label>Fecha del registro de la ultima vacuna </label>
             <br />
-            <input type="date" className="form-control" name="fecha_registro_ultima_vacuna" onChange={handleChange} value={frameworkSeleccionado && frameworkSeleccionado.fecha_registro_ultima_vacuna}/>
+            <input
+              type="date"
+              className="form-control"
+              name="fecha_registro_ultima_vacuna"
+              onChange={handleChange}
+              value={
+                frameworkSeleccionado &&
+                frameworkSeleccionado.fecha_registro_ultima_vacuna
+              }
+            />
             <br />
           </div>
         </ModalBody>
         <ModalFooter>
-          <button className="btn btn-primary" onClick={()=>peticionPut()}>Modificar</button>{"   "}
-          <button className="btn btn-danger" onClick={()=>abrirCerrarModalEditar()}>Cancelar</button>
+          <button className="btn btn-primary" onClick={() => peticionPut()}>
+            Modificar
+          </button>
+          {"   "}
+          <button
+            className="btn btn-danger"
+            onClick={() => abrirCerrarModalEditar()}
+          >
+            Cancelar
+          </button>
         </ModalFooter>
       </Modal>
-  
+
       <Modal isOpen={modalEliminar}>
-          <ModalBody>
-          ¿Estás seguro que deseas eliminar la CCAA {frameworkSeleccionado && frameworkSeleccionado.nombre_ccaa}?
-          </ModalBody>
-          <ModalFooter>
-            <button className="btn btn-danger" onClick={()=>peticionDelete()}>Sí</button>
-            <button className="btn btn-secondary" onClick={()=>abrirCerrarModalEliminar()}>No</button>
+        <ModalBody>
+          ¿Estás seguro que deseas eliminar la CCAA{" "}
+          {frameworkSeleccionado && frameworkSeleccionado.nombre_ccaa}?
+        </ModalBody>
+        <ModalFooter>
+          <button className="btn btn-danger" onClick={() => peticionDelete()}>
+            Sí
+          </button>
+          <button
+            className="btn btn-secondary"
+            onClick={() => abrirCerrarModalEliminar()}
+          >
+            No
+          </button>
         </ModalFooter>
       </Modal>
-  
-      </div>
-    );
-  }
-  
-  export default CRUD;
+    </div>
+  );
+}
+
+export default CRUD;
