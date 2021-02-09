@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-const Pricing = () => {
+function datosGlobales() {
   return (
     <div className="App">
-      <h1>Datos Globales</h1>
+      <h1>Datos globales agregados</h1>
     </div>
   );
-};
+}
 
-export default Pricing;
+export default datosGlobales;
