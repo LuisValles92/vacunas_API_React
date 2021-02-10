@@ -26,7 +26,7 @@ function CRUD() {
       ...prevState,
       [name]: value,
     }));
-    // console.log(frameworkSeleccionado);
+    //console.log(frameworkSeleccionado);
   };
 
   const abrirCerrarModalInsertar = () => {
@@ -46,7 +46,7 @@ function CRUD() {
       .get(baseUrl)
       .then((response) => {
         setData(response.data);
-        console.log(response.data);
+        //console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -159,7 +159,7 @@ function CRUD() {
           </tr>
         </thead>
         <tbody>
-          {console.log(data[0])}
+          {/* {console.log(data[0])} */}
           {data.map((framework) => (
             <tr key={framework.codigo_ccaa}>
               <td>{framework.codigo_ccaa}</td>

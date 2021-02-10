@@ -14,21 +14,15 @@ const NavBar = () => {
         <ReactBootStrap.Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <ReactBootStrap.Navbar.Collapse id="responsive-navbar-nav">
           <ReactBootStrap.Nav className="mr-auto">
-            <Link to="/Home">
-              <ReactBootStrap.Nav.Link href="#Home">
-                Home
-              </ReactBootStrap.Nav.Link>
-            </Link>
-            <Link to="/CRUD">
-              <ReactBootStrap.Nav.Link href="#CRUD">
-                CRUD
-              </ReactBootStrap.Nav.Link>
-            </Link>
-            <Link to="/DatosGlobales">
-              <ReactBootStrap.Nav.Link href="#DatosGlobales">
-                Datos Globales
-              </ReactBootStrap.Nav.Link>
-            </Link>
+            <ReactBootStrap.Nav.Link as={Link} to="/Home">
+              Home
+            </ReactBootStrap.Nav.Link>
+            <ReactBootStrap.Nav.Link as={Link} to="/CRUD">
+              CRUD
+            </ReactBootStrap.Nav.Link>
+            <ReactBootStrap.Nav.Link as={Link} to="/DatosGlobales">
+              Datos Globales
+            </ReactBootStrap.Nav.Link>
           </ReactBootStrap.Nav>
         </ReactBootStrap.Navbar.Collapse>
       </ReactBootStrap.Navbar>

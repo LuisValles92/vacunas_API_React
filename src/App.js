@@ -4,7 +4,7 @@ import CRUD from "./Components/CRUD";
 import Home from "./Components/Home";
 import DatosGlobales from "./Components/DatosGlobales";
 import NavBar from "./Components/Navbar";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
   return (
