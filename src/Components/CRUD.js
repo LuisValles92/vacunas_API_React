@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import axios from "axios";
 import swal from "sweetalert";
-import Icon from '@material-ui/core/Icon';
+import Icon from "@material-ui/core/Icon";
 
 function CRUD() {
   const baseUrl = "http://localhost:8090/ccaas";
@@ -69,8 +69,15 @@ function CRUD() {
     await axios
       .post(baseUrl + "/", ccaa)
       .then((response) => {
-        abrirCerrarModalInsertar();
-        peticionGet();
+        if (response.data != null) {
+          swal(
+            "Buen trabajo!",
+            "Registro Insertado Correctamente",
+            "success"
+          );
+          abrirCerrarModalInsertar();
+          peticionGet();
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -95,7 +102,7 @@ function CRUD() {
         if (response.data != null) {
           swal(
             "Buen trabajo!",
-            "Registro Modificado Satisfactoriamente",
+            "Registro Modificado Correctamente",
             "success"
           );
           abrirCerrarModalEditar();
@@ -114,7 +121,7 @@ function CRUD() {
         if (response.data != null) {
           swal(
             "Buen trabajo!",
-            "Registro Borrado Satisfactoriamente",
+            "Registro Eliminado Correctamente",
             "success"
           );
           abrirCerrarModalEliminar();

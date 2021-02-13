@@ -9,7 +9,7 @@ const NavBar = () => {
       <ReactBootStrap.Navbar
         collapseOnSelect
         expand="xl"
-        bg="danger"
+        bg="dark"
         variant="dark"
       >
         <ReactBootStrap.Navbar.Toggle aria-controls="responsive-navbar-nav" />
