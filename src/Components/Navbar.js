@@ -1,6 +1,7 @@
 import React from "react";
 import * as ReactBootStrap from "react-bootstrap";
 import { BrowserRouter as Router, Link } from "react-router-dom";
+import Icon from '@material-ui/core/Icon';
 
 const NavBar = () => {
   return (
@@ -15,13 +16,13 @@ const NavBar = () => {
         <ReactBootStrap.Navbar.Collapse id="responsive-navbar-nav">
           <ReactBootStrap.Nav className="mr-auto">
             <ReactBootStrap.Nav.Link as={Link} to="/Home">
-              Home
+            <Icon style={{ fontSize: 30 }}>home</Icon>
             </ReactBootStrap.Nav.Link>
             <ReactBootStrap.Nav.Link as={Link} to="/CRUD">
-              CRUD
+            <Icon style={{ fontSize: 30 }}>settings</Icon>
             </ReactBootStrap.Nav.Link>
             <ReactBootStrap.Nav.Link as={Link} to="/DatosGlobales">
-              Datos Globales
+            <Icon style={{ fontSize: 30 }}>menu_book</Icon>
             </ReactBootStrap.Nav.Link>
           </ReactBootStrap.Nav>
         </ReactBootStrap.Navbar.Collapse>

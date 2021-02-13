@@ -31,23 +31,44 @@ function DatosGlobales() {
       .then((response) => {
         setData(response.data);
         // console.log(response.data);
-        response.data.forEach(function(ccaa){
-          dosisEntregadas += ccaa.dosis_entregadas_pfizer + ccaa.dosis_entregadas_moderna;
+        response.data.forEach(function (ccaa) {
+          dosisEntregadas +=
+            ccaa.dosis_entregadas_pfizer + ccaa.dosis_entregadas_moderna;
           dosisAdministradas += ccaa.dosis_administradas;
-          numeroPersonasPautaCompleta+=ccaa.numero_personas_pauta_completa;
-          pfizerDosisEntregadas+=ccaa.dosis_entregadas_pfizer;
-          modernaDosisEntregadas+=ccaa.dosis_entregadas_moderna;
-          pfizerNumeroPersonasPautaCompleta+=ccaa.numero_personas_pauta_completa;
+          numeroPersonasPautaCompleta += ccaa.numero_personas_pauta_completa;
+          pfizerDosisEntregadas += ccaa.dosis_entregadas_pfizer;
+          modernaDosisEntregadas += ccaa.dosis_entregadas_moderna;
+          pfizerNumeroPersonasPautaCompleta +=
+            ccaa.numero_personas_pauta_completa;
         });
         setDosisEntregadas(dosisEntregadas);
         setDosisAdministradas(dosisAdministradas);
-        setPorcentajeDosisRecibidas((dosisAdministradas*100/dosisEntregadas).toPrecision(4));
+        setPorcentajeDosisRecibidas(
+          ((dosisAdministradas * 100) / dosisEntregadas).toPrecision(4)
+        );
         setNumeroPersonasPautaCompleta(numeroPersonasPautaCompleta);
-        setPorcentajeDosisAdministradas((numeroPersonasPautaCompleta*100/dosisAdministradas).toPrecision(3));
+        setPorcentajeDosisAdministradas(
+          (
+            (numeroPersonasPautaCompleta * 100) /
+            dosisAdministradas
+          ).toPrecision(3)
+        );
         setPfizerDosisEntregadas(pfizerDosisEntregadas);
         setModernaDosisEntregadas(modernaDosisEntregadas);
-        setPfizerDosisAdministradas(Math.round(pfizerDosisEntregadas*((dosisAdministradas*100/dosisEntregadas).toPrecision(4)/100)));
-        setModernaDosisAdministradas(Math.round(modernaDosisEntregadas*((dosisAdministradas*100/dosisEntregadas).toPrecision(4)/100)));
+        setPfizerDosisAdministradas(
+          Math.round(
+            pfizerDosisEntregadas *
+              (((dosisAdministradas * 100) / dosisEntregadas).toPrecision(4) /
+                100)
+          )
+        );
+        setModernaDosisAdministradas(
+          Math.round(
+            modernaDosisEntregadas *
+              (((dosisAdministradas * 100) / dosisEntregadas).toPrecision(4) /
+                100)
+          )
+        );
         setPfizerNumeroPersonasPautaCompleta(pfizerNumeroPersonasPautaCompleta);
       })
       .catch((error) => {
@@ -61,19 +82,61 @@ function DatosGlobales() {
 
   return (
     <div className="App">
-      <h1>Datos globales agregados</h1>
-      <p>Dosis entregadas en CCAA: {dosisEntregadas}</p>
-      <p>Dosis administradas: {dosisAdministradas}</p>
-      <p>{porcentajeDosisRecibidas}% dosis recibidas</p>
-      <p>Nº Personas con pauta completa: {numeroPersonasPautaCompleta}</p>
-      <p>{porcentajeDosisAdministradas}% dosis administradas</p>
-      <h2>Distribución por tipo de vacuna</h2>
+      <header>
+        <h1>Datos globales agregados</h1>
+      </header>
+      <div className="contenedor w80">
+        <div>
+          <h4>Dosis entregadas en CCAA</h4>
+          <span className="span1">{dosisEntregadas}</span>
+        </div>
+        <div>
+          <h4>Dosis administradas</h4>
+          <span className="span2">{dosisAdministradas}</span>
+          <hr />
+          <span className="span3">
+            {porcentajeDosisRecibidas}% dosis recibidas
+          </span>
+        </div>
+        <div>
+          <h4>Nº Personas con pauta completa</h4>
+          <span className="span2">{numeroPersonasPautaCompleta}</span>
+          <hr />
+          <span className="span3">
+            {porcentajeDosisAdministradas}% dosis administradas
+          </span>
+        </div>
+      </div>
+      <header>
+        <h2>Distribución por tipo de vacuna</h2>
+      </header>
       <em>* Aplicado al porcentaje de dosis recibidas</em>
-      <p>Dosis entregadas en CCAA (Pfizer/BioNtech): {pfizerDosisEntregadas}</p>
-      <p>Dosis entregadas en CCAA (Moderna): {modernaDosisEntregadas}</p>
-      <p>* Dosis administradas (Pfizer/BioNtech): {pfizerDosisAdministradas}</p>
-      <p>* Dosis administradas (Moderna): {modernaDosisAdministradas}</p>
-      <p>Nº Personas con pauta completa (Pfizer/BioNtech): {pfizerNumeroPersonasPautaCompleta}</p>
+      <div className="contenedor w95">
+        <div>
+          <h4>Vacuna</h4>
+          <hr/>
+          <span className="span4 c-blue">Pfizer / BioNtech</span>
+          <span className="span4 c-green">Moderna</span>
+        </div>
+        <div>
+          <h4>Dosis entregadas en CCAA</h4>
+          <hr />
+          <span className="span4 c-blue">{pfizerDosisEntregadas}</span>
+          <span className="span4 c-green">{modernaDosisEntregadas}</span>
+        </div>
+        <div>
+          <h4>* Dosis administradas</h4>
+          <hr />
+          <span className="span4 c-blue">{pfizerDosisAdministradas}</span>
+          <span className="span4 c-green">{modernaDosisAdministradas}</span>
+        </div>
+        <div>
+          <h4>Nº Personas con pauta completa</h4>
+          <hr />
+          <span className="span4 c-blue">{pfizerNumeroPersonasPautaCompleta}</span>
+          <span className="span4 c-green">-</span>
+        </div>
+      </div>
     </div>
   );
 }

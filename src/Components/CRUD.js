@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import axios from "axios";
 import swal from "sweetalert";
+import Icon from '@material-ui/core/Icon';
 
 function CRUD() {
   const baseUrl = "http://localhost:8090/ccaas";
@@ -141,7 +142,7 @@ function CRUD() {
         className="btn btn-success"
         onClick={() => abrirCerrarModalInsertar()}
       >
-        Insertar
+        <Icon style={{ fontSize: 30 }}>add_circle</Icon>
       </button>
       <br />
       <br />
@@ -174,13 +175,13 @@ function CRUD() {
                   className="btn btn-primary"
                   onClick={() => seleccionarFramework(framework, "Editar")}
                 >
-                  Editar
+                  <Icon style={{ fontSize: 30 }}>edit</Icon>
                 </button>
                 <button
                   className="btn btn-danger"
                   onClick={() => seleccionarFramework(framework, "Eliminar")}
                 >
-                  Eliminar
+                  <Icon style={{ fontSize: 30 }}>delete</Icon>
                 </button>
               </td>
             </tr>
@@ -253,12 +254,12 @@ function CRUD() {
           </div>
         </ModalBody>
         <ModalFooter>
-          <button className="btn btn-primary" onClick={() => peticionPost()}>
+          <button className="btn btn-success" onClick={() => peticionPost()}>
             Insertar
           </button>
           {"   "}
           <button
-            className="btn btn-danger"
+            className="btn btn-secondary"
             onClick={() => abrirCerrarModalInsertar()}
           >
             Cancelar
@@ -357,7 +358,7 @@ function CRUD() {
           </button>
           {"   "}
           <button
-            className="btn btn-danger"
+            className="btn btn-secondary"
             onClick={() => abrirCerrarModalEditar()}
           >
             Cancelar
