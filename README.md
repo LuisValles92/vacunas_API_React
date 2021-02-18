@@ -1,6 +1,6 @@
 # vacunas_API_React
 
-(Enlace)[https://dev.to/crisfer4217/desplegar-app-de-react-js-en-netlify-en-menos-de-5-min-3li9]  
+[Enlace](https://dev.to/crisfer4217/desplegar-app-de-react-js-en-netlify-en-menos-de-5-min-3li9)  
 
 You are now logged into your Netlify account!
 
